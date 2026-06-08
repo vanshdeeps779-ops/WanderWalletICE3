@@ -1,19 +1,24 @@
-name: learn-github-actions
-run-name: ${{ github.actor }} is learning GitHub Actions
+name: Java CI with Maven
 
-on: [push]
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
 
 jobs:
-  check-bats-version:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout project code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
         with:
-          node-version: '20'
+          java-version: '21'
+          distribution: 'temurin'
 
-      - run: npm install -g bats
-
-      - run: bats -v
+      - name: Build and test with Maven
+        run: mvn clean test
