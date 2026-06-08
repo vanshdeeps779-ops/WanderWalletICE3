@@ -1,0 +1,25 @@
+name: Dependent Jobs Demo
+
+on: [push]
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print job 1 message
+        run: echo "Job 1 is running first"
+
+      - name: Finish job 1
+        run: echo "Job 1 completed successfully"
+
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+
+    steps:
+      - name: Print job 2 message
+        run: echo "Job 2 is running after Job 1"
+
+      - name: Finish job 2
+        run: echo "Job 2 completed successfully"
